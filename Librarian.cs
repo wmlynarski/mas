@@ -10,9 +10,11 @@ namespace mas_mp1
     {
         public int LibrarianId { get; private set; }
         public static List<Librarian> AllLibrarians = new List<Librarian>(); //ekstensja trwała i atrybut klasowy
-        public Librarian(int id, string firstName, string lastName, Address? address = null) : base(firstName, lastName, address)
+        public Library Library { get; set; } //asocjacja zwykła
+        public Librarian(int id, string firstName, string lastName, Address? address = null, Library library = null) : base(firstName, lastName, address)
         {
             LibrarianId = id;
+            Library = library;
             AllLibrarians.Add(this);
         }
         public override string ToString() //przesłonięcie
