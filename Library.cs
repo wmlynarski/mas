@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace mas_mp1
 {
-    class Library
+    public class Library
     {
         public string Name { get; set; }
         public Catalog Catalog { get; set; }
+        public List<Librarian> Librarians { get; set; } = new List<Librarian>(); //Asocjacja zwykła
+        public List<Membership> Memberships { get; set; } = new List<Membership>();
         public Library(string name)
         {
             Name = name;
-            Catalog = new Catalog();
+            Catalog = new Catalog(this); //Asocjacja - kompozycja
         }
         public void showCatalog()
         {

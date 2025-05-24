@@ -6,12 +6,25 @@ using System.Threading.Tasks;
 
 namespace mas_mp1
 {
-    class Librarian : Person
+    public class Librarian : Person
     {
         public int LibrarianId { get; private set; }
         public static List<Librarian> AllLibrarians = new List<Librarian>(); //ekstensja trwała i atrybut klasowy
-        public Library Library { get; set; } //asocjacja zwykła
-        public Librarian(int id, string firstName, string lastName, Address? address = null, Library library = null) : base(firstName, lastName, address)
+        public Library _library;
+        public Library Library
+        {
+            get => _library;
+            set
+            {
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                if (_library != null)
+                    _library.Librarians.Remove(this);
+                _library = value;
+                if (!value.Librarians.Contains(this))
+                    value.Librarians.Add(this);
+            }
+        }
+        public Librarian(int id, string firstName, string lastName, Library library, Address? address = null) : base(firstName, lastName, address)
         {
             LibrarianId = id;
             Library = library;
@@ -19,7 +32,7 @@ namespace mas_mp1
         }
         public override string ToString() //przesłonięcie
         {
-            return $"Librarian {LibrarianId}: {FullName}";
+            return $"Librarian {LibrarianId}: {FullName}" + (Library != null ? $" @ {Library.Name}" : "");
         }
     }
 }

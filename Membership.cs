@@ -2,13 +2,17 @@ namespace mas_mp1
 {
 	public class Membership
 	{
-		public Borrower Borrower { get; set; }
-		public Library Library { get; set; }
+		//Klasa asocjacji
+		public Borrower Borrower { get; }
+		public Library Library { get; }
 		public DateTime Since { get; set; }
 		public Membership(Borrower borrower, Library library, DateTime since)
 		{
-			Borrower = borrower;
-			Library = library;
+			Borrower = borrower ?? throw new ArgumentNullException(nameof(borrower));
+			Library = library ?? throw new ArgumentNullException(nameof(library));
 			Since = since;
+			borrower.Memberships.Add(this);
+			library.Memberships.Add(this);
 		}
 	}
+}

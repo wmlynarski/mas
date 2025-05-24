@@ -11,6 +11,7 @@ namespace mas_mp1
         public int MediaItemID { get; private set; }
         public string Title { get; set; }
         public int PublicationYear { get; set; }
+        public Catalog Catalog { get; internal set; }
         public List<Author> Authors { get; set; } //atrybut powtarzalny
         public string? Edition { get; set; } //atrybut opcjonalny
         public static List<MediaItem> AllMediaItems = new List<MediaItem>(); //ekstensja trwała i atrybut klasowy
