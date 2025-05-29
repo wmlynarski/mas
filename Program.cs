@@ -13,6 +13,8 @@ class Program
 
         Library library = new Library("Miejska Biblioteka");
 
+        Catalog MainCatalog = new Catalog(library);
+
         Membership membership1 = new Membership(borrower1, library, DateTime.Now);
 
         Librarian librarian1 = new Librarian(1, "Anna", "Nowak", library, addr2);
@@ -26,15 +28,15 @@ class Program
         Magazine mag1 = new Magazine("Tech Today", 2020, new List<Author> { author2 }, 5);
         DVD dvd1 = new DVD("Inception", 2010, new List<Author> { author2 }, TimeSpan.FromMinutes(148));
 
-        library.Catalog.LoadFromFile();
-        if (library.Catalog.MediaItems.Count == 0)
+        MainCatalog.LoadFromFile();
+        if (MainCatalog.MediaItems.Count == 0)
         {
-            library.Catalog.AddMediaItem(book1);
-            library.Catalog.AddMediaItem(mag1);
-            library.Catalog.AddMediaItem(dvd1);
+            MainCatalog.AddMediaItem(book1);
+            MainCatalog.AddMediaItem(mag1);
+            MainCatalog.AddMediaItem(dvd1);
         }
 
-        MediaItem found = library.Catalog.GetById(book1.MediaItemID);
+        MediaItem found = MainCatalog.GetById(book1.MediaItemID);
         Console.WriteLine(found != null ? $"Found by qualifier: {found}" : "Not found");
 
         Loan loan1 = new Loan(borrower1, book1);

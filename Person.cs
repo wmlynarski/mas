@@ -23,5 +23,6 @@ namespace mas_mp1
         {
             return $"{FirstName} {LastName}";
         }
+        public virtual string GetRole() => "Person"; //polimorfizm
     }
 }

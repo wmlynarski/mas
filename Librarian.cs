@@ -18,7 +18,7 @@ namespace mas_mp1
             {
                 if (value == null) throw new ArgumentNullException(nameof(value));
                 if (_library != null)
-                    _library.Librarians.Remove(this);
+                    _library.RemoveLibrarian(this);
                 _library = value;
                 if (!value.Librarians.Contains(this))
                     value.Librarians.Add(this);
@@ -34,5 +34,6 @@ namespace mas_mp1
         {
             return $"Librarian {LibrarianId}: {FullName}" + (Library != null ? $" @ {Library.Name}" : "");
         }
+        public override string GetRole() => "Librarian";
     }
 }

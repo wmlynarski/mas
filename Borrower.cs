@@ -22,6 +22,7 @@ namespace mas_mp1
         {
             return $"Borrower {BorrowerId}: {FullName}";
         }
+        public override string GetRole() => "Borrower";
 
     }
 }

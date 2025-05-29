@@ -16,6 +16,7 @@ namespace mas_mp1
             MediaItems = new List<MediaItem>();
             ById = new Dictionary<int, MediaItem>();
             Library = library;
+            library.AddCatalog(this);
         }
         public void AddMediaItem(MediaItem mediaItem)
         {
