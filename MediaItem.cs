@@ -11,16 +11,18 @@ namespace mas_mp1
         public int MediaItemID { get; private set; }
         public string Title { get; set; }
         public int PublicationYear { get; set; }
+        public Catalog Catalog { get; set; }
         public string? Edition { get; set; } 
         public static List<MediaItem> AllMediaItems = new List<MediaItem>(); 
         private static int _nextMediaItemID = 1; 
-        public MediaItem(string title, int publicationYear, string? edition = null)
+        public MediaItem(string title, int publicationYear, Catalog catalog, string? edition = null)
         {
             MediaItemID = _nextMediaItemID++;
             Title = title;
             PublicationYear = publicationYear;
             Edition = edition;
             AllMediaItems.Add(this);
+            Catalog = catalog ?? throw new ArgumentNullException(nameof(catalog), "Catalog cannot be null");
         }
         public int Age
         {

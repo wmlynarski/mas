@@ -9,7 +9,7 @@ namespace mas_mp1
     class DVD : MediaItem
     {
         public TimeSpan Duration { get; set; }
-        public DVD(string title, int publicationYear, TimeSpan duration, string? edition = null) : base(title, publicationYear, edition)
+        public DVD(string title, int publicationYear, TimeSpan duration, Catalog catalog, string? edition = null) : base(title, publicationYear, catalog, edition)
         {
             Duration = duration;
         }

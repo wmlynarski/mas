@@ -10,12 +10,15 @@ namespace mas_mp1
     {
         public string Name { get; set; }
         public List<MediaItem> MediaItems { get; set; }
-        public Dictionary<int, MediaItem> ById { get; private set; } 
+        public List<MediaItem> Archived { get; set; } = new List<MediaItem>();
+        public Library Library { get; set; }
+        public Dictionary<int, MediaItem> ById { get; private set; }
         public Catalog(string name, Library library)
         {
             Name = name;
             MediaItems = new List<MediaItem>();
             ById = new Dictionary<int, MediaItem>();
+            Library = library ?? throw new ArgumentNullException(nameof(library), "Library cannot be null.");
         }
         public static void DisplayAllMediaItems()
         {
@@ -36,6 +39,7 @@ namespace mas_mp1
         {
             MediaItems.Remove(mediaItem);
             ById.Remove(mediaItem.MediaItemID);
+            Archived.Add(mediaItem);
             this.SaveToFile();
         }
     }

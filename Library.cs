@@ -23,10 +23,6 @@ namespace mas_mp1
             Console.WriteLine($"Catalogs of {Name}:");
             Console.WriteLine(Catalogs);
         }
-        public void RemoveLibrarian(BorrowerLibrarian librarian)
-        {
-            Librarians.Remove(librarian);
-        }
         public void AddLibrarian(BorrowerLibrarian librarian)
         {
             Librarians.Add(librarian);

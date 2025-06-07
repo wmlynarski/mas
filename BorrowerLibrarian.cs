@@ -16,7 +16,7 @@ namespace mas_mp1
         public Library? Library { get; set; } 
         public List<Membership> Memberships { get; set; } = new List<Membership>();
         public List<Loan> Loans { get; set; } = new List<Loan>();
-        public List<string>? phoneNumbers { get; set; }
+        public List<string>? PhoneNumbers { get; set; }
         public int CommentCount { get; set; }
         public int RecommendationCount { get; set; }
         public int ReadBooksCount { get; set; }
@@ -26,6 +26,13 @@ namespace mas_mp1
         }
         public void Borrow(MediaItem item)
         {
+            if (Loans.Count(l => l.GetStatus == Status.Borrowed) >= 5)
+                throw new InvalidOperationException("Limit aktywnych wypożyczeń (5) został przekroczony.");
+            if (!IsBorrower())
+                throw new InvalidOperationException("Only borrowers can borrow items.");
+            var library = item.Catalog.Library;
+            if (!Memberships.Any(m => m.Library == library))
+                throw new InvalidOperationException($"Brak aktywnego członkostwa w bibliotece „{library.Name}”.");
             var loan = new Loan(this, item);
             loan.SetStatusBorrowed();
             Loans.Add(loan);
@@ -55,7 +62,14 @@ namespace mas_mp1
         }
         public void GiveRecommendation(MediaItem item, string recommendation)
         {
-            RecommendationCount++;
+            if(IsExpert())
+            {
+                RecommendationCount++;
+            }
+            else
+            {
+                throw new InvalidOperationException("Only experts can give recommendations.");
+            }
         }
         public bool IsBorrower() => Roles.HasFlag(Role.Borrower);
         public bool IsLibrarian() => Roles.HasFlag(Role.Librarian);
@@ -66,18 +80,25 @@ namespace mas_mp1
             LibrarianID = librarianId;
             library.AddLibrarian(this);
         }
-        public void AddBorrowerRole(string borrowerId)
+        public void AddBorrowerRole(string borrowerId, List<String> phoneNumbers)
         {
             Roles |= Role.Borrower;
             BorrowerID = borrowerId;
+            PhoneNumbers = phoneNumbers;
         }
-        public void AddMembership(Library library, DateTime since)
+        public void AddMembership(BorrowerLibrarian person, Library library, DateTime since)
         {
-            Memberships.Add(new Membership(this, library, since));
+            if (!IsLibrarian())
+                throw new InvalidOperationException("Only librarians can assign memberships.");
+            Memberships.Add(new Membership(person, library, since));
         }
         public bool IsHonorable()
         {
             return IsBorrower() && IsLibrarian();
+        }
+        public bool IsReader()
+        {
+            return ReadBooksCount > WatchedDVDsCount;
         }
     }
 }

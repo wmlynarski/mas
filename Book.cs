@@ -10,7 +10,7 @@ namespace mas_mp1
     {
         public List<Author> Authors;
         public int NumberOfPages { get; set; } 
-        public Book(string title, int publicationYear, List<Author> authors, int numberOfPages, string? edition = null) : base(title, publicationYear, edition)
+        public Book(string title, int publicationYear, List<Author> authors, int numberOfPages, Catalog catalog, string? edition = null) : base(title, publicationYear, catalog, edition)
         {
             Authors = authors;
             NumberOfPages = numberOfPages;
