@@ -9,41 +9,60 @@ namespace mas_mp1
     public class Loan
     {
         public int LoanID { get; private set; }
-        public Borrower Borrower { get; set; }
+        public BorrowerLibrarian BorrowerLibrarian { get; set; }
         public MediaItem MediaItem { get; set; }
-        public DateTime BorrowDate { get; set; }
         public DateTime DueDate { get; set; }
-        public static List<Loan> AllLoans = new List<Loan>(); //ekstensja trwała
-        private static int _nextLoanID = 1; //atrybut klasowy
-        private const int DefaultLoanPeriodDays = 14;
-        public Loan(Borrower borrower, MediaItem mediaItem) : this(borrower, mediaItem, DefaultLoanPeriodDays){}
-        public Loan(Borrower borrower, MediaItem mediaItem, int loanPeriodDays) //Przeciążenie
+        public static List<Loan> AllLoans = new List<Loan>();
+        private static int _nextLoanID = 1;
+        private const int DefaultLoanPeriodDays = 30;
+        private const int HonoraryLoanPeriodDays = 60;
+        private Status Status { get; set; } = Status.Borrowed;
+        public Loan(BorrowerLibrarian borrowerLibrarian, MediaItem mediaItem)
+      : this(borrowerLibrarian, mediaItem, borrowerLibrarian.IsHonorable() ? HonoraryLoanPeriodDays : DefaultLoanPeriodDays)
+        {
+        }
+        public Loan(Person person, MediaItem mediaItem, int loanPeriodDays)
         {
             LoanID = _nextLoanID++;
-            Borrower = borrower;
+            BorrowerLibrarian = person as BorrowerLibrarian ?? throw new ArgumentException("Person must be a BorrowerLibrarian", nameof(person));
             MediaItem = mediaItem;
-            BorrowDate = DateTime.Now;
-            DueDate = BorrowDate.AddDays(loanPeriodDays);
+            DueDate = DateTime.Now.AddDays(loanPeriodDays);
             AllLoans.Add(this);
         }
-        public decimal Fine
+        public decimal Fine => CountFine();
+        public decimal CountFine()
         {
-            get
-            {
-                if (DateTime.Now <= DueDate)
-                {
-                    return 0;
-                }
-                else
-                {
-                    int overdueDays = (DateTime.Now - DueDate).Days;
-                    return overdueDays * 0.5m;
-                }
-            }
+            if (DateTime.Now <= DueDate)
+                return 0;
+            int overdueDays = (DateTime.Now - DueDate).Days;
+            return overdueDays * 0.5m;
         }
-        public override string ToString() //przesłonięcie
+        public override string ToString()
         {
-            return $"Loan [{LoanID}]: {Borrower.FullName} borrowed {MediaItem.Title} on {BorrowDate.ToShortDateString()} due on {DueDate.ToShortDateString()}, Fine: {Fine:C}";
+            return $"Loan [{LoanID}]: {BorrowerLibrarian.FirstName} borrowed {MediaItem.Title} due on {DueDate.ToShortDateString()}, Fine: {Fine:C}";
+        }
+        public void SetStatusBorrowed()
+        {
+            Status = Status.Borrowed;
+        }
+
+        public void SetStatusReturnedInTime()
+        {
+            Status = Status.ReturnedInTime;
+        }
+
+        public void SetStatusReturnedLateFineNotPayed()
+        {
+            Status = Status.ReturnedLateFineNotPayed;
+        }
+
+        public void SetStatusReturnedLateFinePayed()
+        {
+            Status = Status.ReturnedLateFinePayed;
+        }
+        public Status GetStatus
+        {
+            get { return Status; }
         }
     }
 }

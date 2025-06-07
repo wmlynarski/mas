@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace mas_mp1
 {
-    public static class LibraryExtensions //klasa rozszerzająca
+    public static class LibraryExtensions
     {
-        public static string GetExtendedInfo(this MediaItem mediaItem) //metoda rozszerzająca
+        public static string GetExtendedInfo(this MediaItem mediaItem) 
         {
             return $"{mediaItem.Title} (Age: {mediaItem.Age}";
         }
-        public static bool IsOverdue(this Loan loan) //metoda rozszerzająca
+        public static bool IsOverdue(this Loan loan) 
         {
             return DateTime.Now > loan.DueDate;
         }

@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace mas_mp1
 {
-    interface ILoanable
+    public enum Status
     {
-        void LoanTo(Borrower borrower);
+        Borrowed,
+        ReturnedInTime,
+        ReturnedLateFinePayed,
+        ReturnedLateFineNotPayed,
     }
 }

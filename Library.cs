@@ -9,29 +9,35 @@ namespace mas_mp1
     public class Library
     {
         public string Name { get; set; }
-        public List<Catalog> Catalogs { get; private set; } = new List<Catalog>(); //Kompozycja
-        public List<Librarian> Librarians { get; set; } = new List<Librarian>(); //Asocjacja zwykła
-        public List<Membership> Memberships { get; set; } = new List<Membership>();
-        public Library(string name)
+        public Address Address { get; set; } 
+        public List<Catalog> Catalogs { get; private set; } = new List<Catalog>();
+        public List<BorrowerLibrarian> Librarians { get; private set; } = new List<BorrowerLibrarian>();
+        public List<Membership> Memberships { get; private set; } = new List<Membership>();
+        public Library(string name, Address address)
         {
             Name = name;
+            Address = address ?? throw new ArgumentNullException(nameof(address), "Address cannot be null.");
         }
-        public void showCatalog()
+        public void showCatalogs()
         {
-            Console.WriteLine($"Catalog of {Name}:");
-            Catalog.DisplayAllMediaItems();
+            Console.WriteLine($"Catalogs of {Name}:");
+            Console.WriteLine(Catalogs);
         }
-        public void RemoveLibrarian(Librarian librarian)
+        public void RemoveLibrarian(BorrowerLibrarian librarian)
         {
             Librarians.Remove(librarian);
         }
-        public void AddLibrarian(Librarian librarian)
+        public void AddLibrarian(BorrowerLibrarian librarian)
         {
             Librarians.Add(librarian);
         }
         public void AddCatalog(Catalog catalog)
         {
             Catalogs.Add(catalog);
+        }
+        public void RemoveCatalog(Catalog catalog)
+        {
+            Catalogs.Remove(catalog);
         }
     }
 }

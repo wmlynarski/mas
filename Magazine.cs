@@ -9,7 +9,7 @@ namespace mas_mp1
     class Magazine : MediaItem
     {
         public int IssueNumber { get; set; }
-        public Magazine(string title, int publicationYear, List<Author> authors, int issueNumber, string? edition = null) : base(title, publicationYear, authors, edition)
+        public Magazine(string title, int publicationYear, int issueNumber, string? edition = null) : base(title, publicationYear, edition)
         {
             IssueNumber = issueNumber;
         }

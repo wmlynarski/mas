@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace mas_mp1
 {
-    interface IReservable
+    public enum Role
     {
-        void ReserveBy(Borrower borrower);
+        Librarian,
+        Borrower
     }
 }

@@ -11,18 +11,18 @@ namespace mas_mp1
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Address? Address { get; set; } //atrybut opcjonaly i złożony
-        public string FullName => $"{FirstName} {LastName}"; //atrybut pochodny
-        public Person(string firstName, string lastName, Address? address = null)
+        public Address? Address { get; set; } 
+        public DateOnly BirthDate { get; set; }
+        public Person(string firstName, string lastName, DateOnly birthDate, Address? address)
         {
             FirstName = firstName;
             LastName = lastName;
+            BirthDate = birthDate;
             Address = address;
         }
-        public override string ToString() //przesłonięcie
+        public override string ToString() 
         {
             return $"{FirstName} {LastName}";
         }
-        public virtual string GetRole() => "Person"; //polimorfizm
     }
 }

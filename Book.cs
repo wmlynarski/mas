@@ -8,19 +8,19 @@ namespace mas_mp1
 {
     class Book : MediaItem
     {
-        public Publisher? Publisher { get; set; } //atrybut opcjonalny
+        public List<Author> Authors;
         public int NumberOfPages { get; set; } 
-        public Book(string title, int publicationYear, List<Author> authors, Publisher? publisher, int numberOfPages, string? edition = null) : base(title, publicationYear, authors, edition)
+        public Book(string title, int publicationYear, List<Author> authors, int numberOfPages, string? edition = null) : base(title, publicationYear, edition)
         {
-            Publisher = publisher;
+            Authors = authors;
             NumberOfPages = numberOfPages;
         }
         public override string GetMediaType() => "Book";
-        public string GetDetailedInfo(bool includePublisher) //przesłoięcie
+        public string GetDetailedInfo(bool includePublisher) 
         {
-            if(includePublisher && Publisher != null)
+            if(includePublisher && Authors != null)
             {
-                return $"{base.ToString()} - Publisher: {Publisher.Name}";
+                return $"{base.ToString()} - Authors: {Authors}";
             }
             else
             {

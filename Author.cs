@@ -8,14 +8,15 @@ namespace mas_mp1
 {
     public class Author : Person
     {
-        public DateTime BirthDate { get; set; }
-        public static List<Author> AllAuthors = new List<Author>(); //ekstensja trwała i atrybut klasowy
-        public Author(string firstName, string lastName, DateTime birthDate) : base(firstName, lastName)
+        public DateOnly? DeathDate { get; set; }
+        public static List<Author> AllAuthors = new List<Author>(); 
+        public Author(string firstName, string lastName, DateOnly birthDate, DateOnly? deathDate, Address? address) : base(firstName, lastName, birthDate, address)
         {
             BirthDate = birthDate;
+            DeathDate = deathDate;
             AllAuthors.Add(this);
         }
-        public override string ToString() //przesłonięcie
+        public override string ToString()
         {
             return $"{FirstName} {LastName}";
         }
